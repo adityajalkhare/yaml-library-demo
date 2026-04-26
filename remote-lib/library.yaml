@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: remote-lib
+version: "1.0.0"
+description: Simulated remote library for infra/approval workflows.
+
+exports:
+  steps:
+    - name: notify
+      file: steps/notify.yaml
+      description: Send notifications via echo (simulated).
+      inputs:
+        - name: channel
+          type: string
+          default: "#builds"
+        - name: message
+          type: string
+          required: true
+        - name: mentions
+          type: list
+          required: false
+
+  stages:
+    - name: approvalGate
+      file: stages/approval-gate.yaml
+      description: Stage with input directive and post conditions.
+      inputs:
+        - name: environment
+          type: string
+          required: true
+        - name: submitter
+          type: string
+          default: "admin"
+        - name: timeout
+          type: int
+          default: 30

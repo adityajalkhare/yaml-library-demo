@@ -1,0 +1,8 @@
+# Step export: notify
+# Inputs: channel (string), message (string, required), mentions (list)
+steps:
+  - echo: "[NOTIFY] ${{ inputs.channel }}: ${{ inputs.message }}"
+${{ if inputs.mentions }}
+  - echo: "[NOTIFY] cc: ${{ inputs.mentions }}"
+${{ end }}
+  - sh: "echo 'Notification sent at' $(date)"

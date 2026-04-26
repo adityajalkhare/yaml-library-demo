@@ -1,0 +1,20 @@
+# Stage export: approvalGate
+# Inputs: environment (string, required), submitter (string), timeout (int)
+stage: "Approve ${{ inputs.environment }}"
+input:
+  message: "Deploy to ${{ inputs.environment }}?"
+  submitter: "${{ inputs.submitter }}"
+options:
+  - timeout:
+      time: ${{ inputs.timeout }}
+      unit: MINUTES
+steps:
+  - echo: "Approved for ${{ inputs.environment }} by ${{ inputs.submitter }}"
+  - sh: "echo 'Proceeding with ${{ inputs.environment }} deployment'"
+post:
+  success:
+    - echo: "Approval gate for ${{ inputs.environment }} passed"
+  aborted:
+    - echo: "Deployment to ${{ inputs.environment }} was aborted"
+  always:
+    - echo: "Approval gate for ${{ inputs.environment }} complete"
